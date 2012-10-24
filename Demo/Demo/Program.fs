@@ -1,4 +1,6 @@
-﻿open System
+﻿module Program
+
+open System
 
 //задание именованных значений
 let a = 300   //целое число, тип: integer
@@ -6,6 +8,9 @@ let b = 500.5 //вещественное число, тип: float
 let str = "This is BlackJack!" //строка, тип: string
 let delimiter = ' ' //символ, тип: char
 let f = (fun x -> x * 2) //функция, тип: int -> int
+
+let g f x = f (f (f x))
+g (fun x -> x * 2) 5 // = 40
 
 let g x y = x * y //другая запись функции
 let g' = g 20     //частичное применение
@@ -19,7 +24,7 @@ Array.iter (printfn "-- %c") //функция из модуля Array
 let gen = new Random() //новый генератор случайных чисел
 
 [| for _ in 0..100 -> gen.NextDouble() * 100.0 - 50.0 |] //массив случайных чисел, array comprehension
-//другой спосо найти минимальный элемент
+//другой способ найти минимальный элемент
 |> Array.fold (fun acc elem -> if elem < acc then elem else acc) Double.PositiveInfinity
 |> ignore
 

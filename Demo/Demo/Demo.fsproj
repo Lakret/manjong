@@ -47,6 +47,10 @@
   <ItemGroup>
     <Compile Include="Program.fs" />
     <None Include="App.config" />
+    <Compile Include="Camila.fs" />
+    <Compile Include="Irina.fs" />
+    <Compile Include="Sergey.fs" />
+    <Compile Include="Nikolay.fs" />
   </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
