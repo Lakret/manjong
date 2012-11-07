@@ -9,10 +9,20 @@ open Types
 
 // These are the terminal tokens of the grammar along with the types of
 // the data carried by each token:
+%token POW
+%token NEG
+%token ADD MUL
+%token EQ
 %token <System.Int32> NUM
 %token <System.String> VAR
-%token NEG EQ
 %token EOF
+
+%nonassoc NUM VAR
+%left EQ
+%left ADD
+%left MUL
+%left NEG
+%left POW
 
 // This is the type of the data produced by a successful reduction of the 'start'
 // symbol:
@@ -32,5 +42,12 @@ RightPart :
     | NEG RightPart          { Neg($2) }
 
 LeftPart : 
+    | Expr                   { $1 }
+
+Expr :
+    | Expr POW Expr          { Pow($1, $3) }
+    | Expr ADD Expr          { Add($1, $3) }
+    | Expr MUL Expr          { Mul($1, $3) }
+    | NEG Expr               { Neg($2) }
     | NUM                    { Int($1) }
-    | NEG RightPart          { Neg($2) }
+    | VAR                    { Var($1) }

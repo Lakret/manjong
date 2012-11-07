@@ -70,12 +70,14 @@
     <Compile Include="Types.fs" />
     <None Include="QuadParser.fsy" />
     <Compile Include="QuadParser.fs" />
-    <Compile Include="Program.fs" />
+    <None Include="QuadLexer.fsl" />
+    <Compile Include="QuadLexer.fs" />
     <None Include="App.config" />
     <Compile Include="Camila.fs" />
     <Compile Include="Irina.fs" />
     <Compile Include="Sergey.fs" />
     <Compile Include="Nikolay.fs" />
+    <Compile Include="Program.fs" />
     <None Include="packages.config" />
   </ItemGroup>
   <PropertyGroup>

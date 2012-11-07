@@ -154,11 +154,11 @@ open Types //смотрите тип в модуле Types
 //пример записи вышеприведённого уравнения
 let testEq = Eq(Add(Mul(Int 2, Pow(Var "x", Int 2)), Add(Neg(Mul(Int 8, Var "x")), Int 15)), Int 20)
 
-let solve (Eq(left, Int right)) =
+let solve (Eq(left, right)) =
     //мы должны извлечь обычные коэффициенты a, b и c
     let rec extractA =
         function 
-        | Neg(Mul(Int a, Pow(Var _, Int 2))) -> Some -a
+        | Mul(Neg(Int a), Pow(Var _, Int 2)) -> Some -a
         | Mul(Int a, Pow(Var _, Int 2)) -> Some a
         | Pow(Var _, Int 2) -> Some 1
         | Add(x, y) -> 
@@ -188,6 +188,12 @@ let solve (Eq(left, Int right)) =
         | Neg(Int c) -> Some -c
         | _ -> None
 
+    let extractRight =
+        function
+        | Neg(Int x) -> x
+        | Int x -> x
+        | _ -> failwith "Incorrect right side of equation: only integers are allowed"
+
     let solver a b c =
         let a', b', c' = float a, float b, float c
         let d = Math.Sqrt(b' ** 2. - 4. * a' * c')
@@ -196,9 +202,23 @@ let solve (Eq(left, Int right)) =
     match extractA left, extractB left, extractC left with
     | Some a, Some b, Some c -> 
         printfn "a = %i, b = %i, c = %i" a b c
-        solver a b (c - right)
+        solver a b (c - extractRight right)
     | _ -> failwith "Incorrect input"
 
 solve testEq
 |> ignore
 
+//используем лексер и парсер, чтобы научиться читать ввод пользователей
+#if INTERACTIVE
+#r "FSharp.PowerPack.dll"
+#endif
+
+[<EntryPoint>]
+let main(_) =
+    let eq = "-8 * x ** 2 + 132 * x + 18 = -5"
+//    let lexbuf = Lexing.LexBuffer<_>.FromString eq
+//    while not lexbuf.IsPastEndOfStream do
+//        printfn "Lex: %A" <| QuadLexer.tokenize lexbuf
+    let testEquation2 = QuadParser.start <| QuadLexer.tokenize <| Lexing.LexBuffer<_>.FromString eq
+    printfn "Solved equation %A with answers %f and %f" testEquation2 <|| solve testEquation2
+    0

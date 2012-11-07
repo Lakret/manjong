@@ -1,0 +1,37 @@
+﻿{
+module QuadLexer
+
+open System
+open QuadParser
+
+open Microsoft.FSharp.Text.Lexing
+
+//IMPORTANT: must be build with --unicode option!
+
+}
+ 
+let digit = ['0'-'9']
+let letter = ['a'-'z''A'-'Z']
+let whitespace = [' ' '\t' ]
+let newline = ('\n' | '\r' '\n')
+
+// Just grab a sequence of characters to form a token. We will turn that into
+// a 'document token' later.
+let int = digit+
+let var = letter(letter|digit|'_')*
+
+rule tokenize = parse
+// Eat whitespace
+| whitespace    { tokenize lexbuf }   
+| newline       { lexbuf.EndPos <- lexbuf.EndPos.NextLine; tokenize lexbuf; }
+// Symbols
+| "+"			{ ADD }
+| "-"			{ NEG }
+| "*"			{ MUL }
+| "**"          { POW }
+| "="           { EQ }
+// Any other string is considered a term in a search query.
+| int           { NUM(int <| LexBuffer<char>.LexemeString(lexbuf)) }
+| var           { VAR(LexBuffer<char>.LexemeString(lexbuf)) }
+// EOF
+| eof   { EOF }
