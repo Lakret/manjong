@@ -17,7 +17,9 @@ open MSDN.FSharp.Charting
 open System.Drawing
 open System.IO
 
-let dataDir = @"C:\Users\uc-user\Documents\manjong\Data"
+let dataDir = @"C:\Users\uc-ser\manjong\Data"
+Directory.GetFiles dataDir
+
 
 let lines = (File.ReadAllLines (dataDir + @"\females_out_of_school.csv")).[1..]
 
@@ -39,10 +41,31 @@ let data =
     |]
     |> Array.sortBy snd
 
+let chr =
+    data
+    |> Array.map (fun (x, y) -> x, Math.Log10 y)
+    |> FSharpChart.Column
 
-data
-|> Array.map (fun (x, y) -> x, Math.Log10 x)
-|> FSharpChart.Column
+
+let lines' = (File.ReadAllLines (dataDir+ @"\males_out_of_school.csv")).[1..]
+
+
+let data' =
+    [|
+        for line in lines' do
+            match parseLine line with
+            | Some x -> yield x
+            | _ -> ()
+    |]
+    |> Array.sortBy snd
+
+let chr' =
+    data'
+    |> Array.map (fun (x',y') -> x', Math.Log10 y')
+    |> FSharpChart.Column
+
+
+FSharpChart.Columns [| chr; chr'|]
 
 
 //используем провайдер типов, чтобы получить данные StackOverflow
