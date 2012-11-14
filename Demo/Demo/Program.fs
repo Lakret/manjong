@@ -33,7 +33,10 @@ let hist data = Seq.countBy id data |> Seq.toArray
 Array.map snd users |> hist |> FSharpChart.Column
 |> ignore 
 
-
+//by Nikolai:
+[|for x in 0.0..0.001..(2.0*Math.PI) -> (x, Math.Sin x)|]
+|> FSharpChart.Point
+|> ignore
 
 // Алгебраические типы данных
 
@@ -176,3 +179,4 @@ let main(_) =
     let testEquation2 = QuadParser.start <| QuadLexer.tokenize <| Lexing.LexBuffer<_>.FromString eq
     printfn "Solved equation %A with answers %f and %f" testEquation2 <|| solve testEquation2
     0
+
