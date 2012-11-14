@@ -17,9 +17,11 @@ open MSDN.FSharp.Charting
 open System.Drawing
 open System.IO
 
-let dataDir = @"C:\Users\uc-user\Documents\manjong\Data"
+let dataDir = @"C:\Users\uc-ser\manjong\Data"
 
 let lines = (File.ReadAllLines (dataDir + @"\females_out_of_school.csv")).[1..]
+
+let lines' = (File.ReadAllLines (dataDir + @"\population_total.csv")).[1..]
 
 let parseLine (line : string) =
     let splitted = line.Split([| ';' |], StringSplitOptions.RemoveEmptyEntries)
@@ -41,8 +43,13 @@ let data =
 
 
 data
-|> Array.map (fun (x, y) -> x, Math.Log10 x)
+|> Array.map (fun (x, y) -> x, Math.Log10 y)
 |> FSharpChart.Column
+
+[| for line in lines' do
+     match parseLine line with
+     | None -> ()
+     | Some x -> yield x |]
 
 
 //используем провайдер типов, чтобы получить данные StackOverflow
