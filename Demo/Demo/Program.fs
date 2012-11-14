@@ -15,6 +15,35 @@ open Microsoft.FSharp.Data.TypeProviders
 open System.Linq
 open MSDN.FSharp.Charting
 open System.Drawing
+open System.IO
+
+let dataDir = @"C:\Users\uc-user\Documents\manjong\Data"
+
+let lines = (File.ReadAllLines (dataDir + @"\females_out_of_school.csv")).[1..]
+
+let parseLine (line : string) =
+    let splitted = line.Split([| ';' |], StringSplitOptions.RemoveEmptyEntries)
+    if splitted.Length <> 2 then None
+    else Some (splitted.[0], float splitted.[1])
+
+//Array.map parseLine lines
+//|> Array.filter Option.isSome
+//|> Array.map Option.get
+
+let data =
+    [|
+        for line in lines do
+            match parseLine line  with
+            | Some x -> yield x
+            | _ -> ()
+    |]
+    |> Array.sortBy snd
+
+
+data
+|> Array.map (fun (x, y) -> x, Math.Log10 x)
+|> FSharpChart.Column
+
 
 //используем провайдер типов, чтобы получить данные StackOverflow
 type stackOverflowData = ODataService<"http://data.stackexchange.com/stackoverflow/atom">
