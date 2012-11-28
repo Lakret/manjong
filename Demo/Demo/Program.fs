@@ -17,7 +17,76 @@ open MSDN.FSharp.Charting
 open System.Drawing
 open System.IO
 
+//ассоциативные массивы (они же словари или отображения)
+let arr = [| ("hello", 0.25); ("kitty", 0.5); ("foo", 0.2); ("bar", 0.3) |]
+
+//snd arr.[1]
+//Array.find (fun x -> fst x = "kitty") arr |> snd
+
+let d = arr |> dict //IDictionary<string,float>
+
+d.["kitty"]
+|> ignore
+
+[|
+    for i in 0..100 -> char i, i
+|]
+|> dict
+|> ignore
+
+//spell-checker
+
+[|for i in 0..10000000 -> i|] |> ignore
+
+let sequence = seq { for i in 0..10000000 -> i }
+
+let testSet = [| 1; 2; 1; 3; 4|] |> set
+
+testSet.Contains 1 |> ignore
+testSet.Contains 454545 |> ignore
+
+//all words with Levenstein distance = 1 from the given word
+//string -> Set<string>
+//замена, вставка, удаление, обмен местами
+let generateAllNeighbours (inputWord : string) =
+    let word = inputWord.ToLower()
+    let maxPos = word.Length - 1
+    [|
+        //deletions
+        for i in 0..maxPos -> word.Remove(i, 1)
+        //insertions and replaces
+        for c in 'а'..'я' do
+            yield word + c.ToString()
+            for pos in 0..maxPos do
+                yield word.Insert(pos, c.ToString())
+                let charArray = word.ToCharArray()
+                charArray.[pos] <- c
+                yield new String(charArray)
+        //exchanges
+        for x in 0..maxPos do
+            for y in 0..maxPos do
+                let charArray = word.ToCharArray()
+                let buffer = charArray.[x]
+                charArray.[x] <- charArray.[y]
+                charArray.[y] <- buffer
+                yield new String(charArray)
+    |]
+    |> set
+
+(generateAllNeighbours "привет").Count
+
+//"яКрИвЕтКО".ToLower()
+
+
+
+
+
+
+
+
+
 let dataDir = @"C:\Users\uc-user\Documents\manjong\Data"
+Directory.GetFiles dataDir
 
 let lines = (File.ReadAllLines (dataDir + @"\females_out_of_school.csv")).[1..]
 
@@ -33,15 +102,14 @@ let parseLine (line : string) =
 let data =
     [|
         for line in lines do
-            match parseLine line  with
+            match parseLine line with
             | Some x -> yield x
             | _ -> ()
     |]
     |> Array.sortBy snd
 
-
 data
-|> Array.map (fun (x, y) -> x, Math.Log10 x)
+|> Array.map (fun (x, y) -> x, Math.Log10 y)
 |> FSharpChart.Column
 
 
