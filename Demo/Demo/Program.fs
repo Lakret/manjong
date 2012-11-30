@@ -45,10 +45,21 @@ let testSet = [| 1; 2; 1; 3; 4|] |> set
 testSet.Contains 1 |> ignore
 testSet.Contains 454545 |> ignore
 
+let delimiters = [| ' '; '\n'; '\r'; '='; '"'; '\''; '\t'; ','; '.'; ':'; ';'; '-'; '—'; '!'; '?' |]
+
+let learnDictionary (file : string) =
+    let words = (File.ReadAllText file).Split(delimiters, StringSplitOptions.RemoveEmptyEntries)
+    let n = float words.Length
+    Seq.countBy (fun (x : string) -> x.ToLower()) words 
+    |> Seq.map (fun (word, count) -> word, (float count) / n)
+    |> dict
+
+let W = learnDictionary @"C:\Users\uc-user\Documents\manjong\Data\Bible_txt.txt"
+
 //all words with Levenstein distance = 1 from the given word
 //string -> Set<string>
 //замена, вставка, удаление, обмен местами
-let generateAllNeighbours (inputWord : string) =
+let generateAllNeighbours (inputWord : string) (W : IDictionary<string, _>) =
     let word = inputWord.ToLower()
     let maxPos = word.Length - 1
     [|
@@ -72,13 +83,31 @@ let generateAllNeighbours (inputWord : string) =
                 yield new String(charArray)
     |]
     |> set
+    |> Set.filter W.ContainsKey
+    |> Set.map (fun word -> word, W.[word])
 
-(generateAllNeighbours "привет").Count
+(generateAllNeighbours "привер" W)
+
+let spellCheck (W : IDictionary<_, _>) (w : string) = 
+    let word = w.ToLower()
+    if W.ContainsKey word then word
+    else 
+        let neighbours = generateAllNeighbours word W
+        if neighbours.IsEmpty then word
+        else Seq.maxBy (fun (_, p) -> p) neighbours |> fst
+
+let spellCheck' = spellCheck W
+
+//spellCheck' "привер"
+//spellCheck' "инфраструктура"
+
+let text =
+    "Когда мать увдела сныа, она крыкнула: хватай кошку и беги! Крета бысстро мчаа."
+
+text.Split(delimiters, StringSplitOptions.RemoveEmptyEntries)
+|> Array.map spellCheck'
 
 //"яКрИвЕтКО".ToLower()
-
-
-
 
 
 

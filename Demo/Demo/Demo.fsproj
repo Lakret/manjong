@@ -73,8 +73,6 @@
     <None Include="QuadLexer.fsl" />
     <Compile Include="QuadLexer.fs" />
     <None Include="App.config" />
-    <Compile Include="Camila.fs" />
-    <Compile Include="Irina.fs" />
     <Compile Include="Sergey.fs" />
     <Compile Include="Nikolay.fs" />
     <Compile Include="Program.fs" />
