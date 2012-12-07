@@ -1,17 +1,42 @@
 ﻿open System
 open System.Collections.Generic
 
+
+type State = 
+    | Admin
+    | User of string
+
+type Comand =
+    | Create of (string -> float)
+    | Sub of (State -> float -> float)
+
+let db = new Dictionary<string, string option * float>()
+
 let getAccountAmount =
     let rndGen = new Random()
     (fun() -> rndGen.NextDouble() * 1e9)
+    
+let create name =  
+    let amount = getAccountAmount()
+    db.Add(name, (None, amount))
+    amount
 
-//let db = new Dictionary<string, string option * float>()
-//db.Add("John", (Some "pass", getAccountAmount()))
-//db.["John"]
-//if db.ContainsKey "Helen" then db.["Helen"] else failwith "Have not Helen!111"
+let sub state amount =
+    match state with 
+    | Admin -> failwith "Admin have no account"
+    | User name -> 
+        if db.ContainsKey name then            
+            let newAmount = snd db.[name] - amount
+            db.[name] <- (fst db.[name], newAmount)
+            newAmount 
+        else failwith <| sprintf "There's no user with name %s" name   
+
+let describe state = 
+    match state with
+    | Admin -> [Create create , "New User"]
+    | User _ -> [Sub sub , "Withdrawl the given amount of money from the user's account"]
 
 [<EntryPoint>]
-let main _ = 
-    let str = Console.ReadLine()
-    printfn "Hello, %s, Echo + 10.5: %f" "Slow" <| getAccountAmount()
-    0 // return an integer exit code
+let main(_) =
+    printfn "Available commands: %A" <| describe Admin
+    0
