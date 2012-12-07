@@ -288,9 +288,6 @@ let solve (Eq(left, right)) =
         solver a b (c - extractRight right)
     | _ -> failwith "Incorrect input"
 
-solve testEq
-|> ignore
-
 //используем лексер и парсер, чтобы научиться читать ввод пользователей
 #if INTERACTIVE
 #r "FSharp.PowerPack.dll"
