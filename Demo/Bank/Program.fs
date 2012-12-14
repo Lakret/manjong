@@ -1,4 +1,4 @@
-﻿open System
+open System
 open System.Collections.Generic
 
 
@@ -35,6 +35,20 @@ let describe state =
     match state with
     | Admin -> [Create create , "New User"]
     | User _ -> [Sub sub , "Withdrawl the given amount of money from the user's account"]
+
+let login (_state : State) =
+    printfn "Enter username" 
+    let name = Console.ReadLine()
+    match fst db.[name] with
+    | Some pasword ->
+        let userPass = Console.ReadLine()
+        if pasword = userPass then User name
+        else failwith "Password doesn't match"
+    | None ->
+        printfn "Please, specify your password"
+        let password = Console.ReadLine()
+        db.[name] <- (Some password, snd db.[name])
+        User name
 
 [<EntryPoint>]
 let main(_) =
