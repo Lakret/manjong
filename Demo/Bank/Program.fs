@@ -1,4 +1,4 @@
-open System
+﻿open System
 open System.Collections.Generic
 
 
@@ -37,19 +37,20 @@ let describe state =
     | User _ -> [Sub sub , "Withdrawl the given amount of money from the user's account"]
 
 let login (_state : State) =
+    let requestPassword correctPassword succesState =
+        printfn "Enter your password"
+        let userpassword = Console.ReadLine()
+        if userpassword = correctPassword then succesState
+        else failwith "Incorrect password"
+
     printfn "Enter username" 
     let name = Console.ReadLine()
-    if name = "Admin" then
-        printfn "password"
-        let userpassword = Console.ReadLine()
-        if userpassword = "root" then Admin
-        else failwith "uncorrect password"
+    if name = "admin" then
+        requestPassword "root" Admin
     else
         match fst db.[name] with
         | Some pasword ->
-            let userPass = Console.ReadLine()
-            if pasword = userPass then User name
-            else failwith "Password doesn't match"
+            requestPassword pasword (User name)
         | None ->
             printfn "Please, specify your password"
             let password = Console.ReadLine()
@@ -59,4 +60,5 @@ let login (_state : State) =
 [<EntryPoint>]
 let main(_) =
     printfn "Available commands: %A" <| describe Admin
+    login Admin |> printfn "Current state %A"
     0
