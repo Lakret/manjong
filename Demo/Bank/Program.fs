@@ -39,16 +39,22 @@ let describe state =
 let login (_state : State) =
     printfn "Enter username" 
     let name = Console.ReadLine()
-    match fst db.[name] with
-    | Some pasword ->
-        let userPass = Console.ReadLine()
-        if pasword = userPass then User name
-        else failwith "Password doesn't match"
-    | None ->
-        printfn "Please, specify your password"
-        let password = Console.ReadLine()
-        db.[name] <- (Some password, snd db.[name])
-        User name
+    if name = "Admin" then
+        printfn "password"
+        let userpassword = Console.ReadLine()
+        if userpassword = "root" then Admin
+        else failwith "uncorrect password"
+    else
+        match fst db.[name] with
+        | Some pasword ->
+            let userPass = Console.ReadLine()
+            if pasword = userPass then User name
+            else failwith "Password doesn't match"
+        | None ->
+            printfn "Please, specify your password"
+            let password = Console.ReadLine()
+            db.[name] <- (Some password, snd db.[name])
+            User name
 
 [<EntryPoint>]
 let main(_) =
