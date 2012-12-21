@@ -1,6 +1,10 @@
 ﻿open System
 open System.Collections.Generic
 
+//TODO: 
+// - обработка исключений
+// - выход
+// - прикрутить монго
 
 type State = 
     | Admin
