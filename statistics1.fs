@@ -1,5 +1,6 @@
 open System
 open System.Collections.Generic
+open Samples.Charting.DojoChart
 
 //рост
 let data = [| 185.; 196.; 165.; 180.; 173.; 120.; 210. |]
@@ -32,3 +33,8 @@ let ys = Array.map (fun x -> Math.Log(x)) <| Array.map PHeight data3
 Array.sum ys
 
 Array.sum xs > Array.sum ys
+
+
+[|100. .. 1. .. 300.|] |> Array.map (fun x -> x, PHeight x) |> Chart.Line
+
+[| 0.1 .. 0.05 .. 10.|] |> Array.map (fun x -> x, Math.Log(x)) |> Chart.Line
