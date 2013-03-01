@@ -40,10 +40,9 @@ let learn data =
                     yield muI, sigmaI
             |]
     |]
-    |> array2D
 
 let learnedParams = learn trainData
-learnedParams.[1, 2] // 1 - вид, 2 - параметр: sl, sw, pl, pw
+learnedParams.[1].[2] // 1 - вид, 2 - параметр: sl, sw, pl, pw
 
 let pY =
     [| 
@@ -52,3 +51,16 @@ let pY =
             yield count / 100.
     |]
 
+let classify (datum : float []) =
+    [|
+        for y in 0..2 ->
+            log(pY.[y]) + (Array.map2 (fun x (mu, sigma) -> log <| P mu sigma x) datum learnedParams.[y] |> Array.sum), y
+    |]
+    |> Array.maxBy fst
+
+classify <| fst testData.[1]
+
+let successCount = 
+    testData |> Array.filter (fun datum -> ((snd << classify) <| fst datum) = snd datum) |> Array.length
+    
+float successCount / float testData.Length //0.9387
