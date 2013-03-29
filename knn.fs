@@ -39,7 +39,20 @@ let world =
 
 let test = [|3.; 1.|]
 
+
 //cross validation
-let CV min max n world =
-    //TODO: выбирает оптимальное минимальное значение k, при котором для случайного разбиения мира на (world.Length - n) известный точек и 
-    //n вопросиков, больше всего вопросиков получают правильный класс после применения kNN
+let CV min max step world =
+    let randGen = new Random()
+    let permutedWorld = Array.sortBy (fun x -> randGen.Next()) world
+    let l = permutedWorld.Length
+    let cvData, testData = permutedWorld.[.. l/2], permutedWorld.[l/2 + 1..]
+    [|
+        for k in min..step..max do
+            let results = 
+                [|
+                    for test in testData -> (kNN k euclideanDistance cvData test.coords |> fst) = test.clazz
+                |]
+            yield k, (results |> Array.filter id |> Array.length |> float) / (results.Length |> float)
+    |]
+    |> Array.maxBy snd
+
