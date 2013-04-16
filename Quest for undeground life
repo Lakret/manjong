@@ -7,7 +7,7 @@ open System
          MEN : int;
          INT : int;
          LUCK : int; // Подумаем над тем чтобы убрать
-         ORBb : int; // Должен быть список
+         ORBb : int; // Будет список по индексу где 1 соответствует например +5 к силе 
         } // характеристики персонажа 
    
     type characteristicsLv = { 
@@ -21,10 +21,10 @@ open System
         DMG : int
         DEF : int
         CRITrate : int
-        ORBb : int // Должен быть список
+        ORBb : int // Будет список по индексу где 1 соответствует например +5 к силе 
    } //Боевые характеристики героя
 
-    type characteristicsMonstr = { 
+    type characteristicsMonstrDragon = { 
          Danger : int
          STR : int;
          CON : int;
@@ -37,7 +37,19 @@ open System
          CRITrate : int
          ORBb : int
          Drop: int
-        }   // time for быдло кодинг
+         XP : int  
+         MP : int
+         HP : int
+        }   // Характеристики монстра дракона
+
+    type characteristicsMonstrEasy= { 
+         Danger : int  // Уровень опасности
+         DMG : int
+         DEF : int
+         Drop: int  //Дроп 
+         XPHero : int // Опыта герою 
+         HP : int
+        }   // Характеристики монстра
 
     type characteristicsTrap = {
         DMG : int
@@ -50,16 +62,19 @@ open System
         weapon : int
         ring :int
         useitem : int // да да тут библиотека или чето  другое но точно НЕ ЧИСЛА АГАРРРР
+        // Будет список по индексу где 1 соответствует например  шмотке +5 к ловкости 
         }// 4 типа шмоток 
 
     type Event =
-    | Monster of characteristicsMonstr
+    | MonsterDragon of characteristicsMonstrDragon
+    | MonsterEasy of characteristicsMonstrEasy
+    | MonstrOrb
     | Trap of characteristicsTrap 
     | Drop 
     | Void
-
-    Let Snake = characteristicsMonstr({10,10,10,10,10,10,10,10,10,10,10,10})
+ 
     
+    let snake = MonsterEasy({Danger = 1, DMG = 10, DEF = 0, XPhero = 10, HP = 25})
 
-
+  
   
