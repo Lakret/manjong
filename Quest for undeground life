@@ -1,7 +1,5 @@
 open System
  newstyle:
-open System
-
     type CharacteristicsPers = { 
          STR : int;
          CON : int;
@@ -69,8 +67,6 @@ open System
         // Будет список по индексу где 1 соответствует например  шмотке +5 к ловкости 
         }// 4 типа шмоток 
 
-    
-
     type Event =
     | MonsterDragon of characteristicsMonstrDragon
     | Monster of characteristicsMonstr
@@ -79,24 +75,37 @@ open System
     | Void
 
     type HeroInfo =
-    |HeroStat of CharacteristicsPers
+    |HeroState of CharacteristicsPers
     |HeroLvl of CharacteristicsLvl
     |HeroBatle of CharacteristicsHeroBatle
 
     let hero = 
-        HeroStat({STR = 10; CON = 10; DEX = 10; MEN = 10; INT = 10; LUCK = 10; OrbP = 0;})
+        HeroState({STR = 10; CON = 10; DEX = 10; MEN = 10; INT = 10; LUCK = 10; OrbP = 0;})
         HeroLvl({XP = 0; Lvl = 1; HP = 100; MP = 100; XPNextLvl = 100;})
         HeroBatle({DMG = 10; DEF = 5;CritRate =1; OrbB = 0;})
               
 
     //Описание монстров
-    let snake = Monster({Danger = 1; DMG = 10; DEF = 0; XPHero = 10; HP = 25; Drop = 0; OrbB = 0})
-    let witch = Monster({Danger = 2; HP = 50; DMG = 5; DEF = 1; XPHero = 10 ; Drop = 1; OrbB = 1})
+    let Snake = Monster({Danger = 1; DMG = 10; DEF = 0; XPHero = 10; HP = 25; Drop = 0; OrbB = 0})
+    let Witch = Monster({Danger = 2; HP = 50; DMG = 5; DEF = 1; XPHero = 10 ; Drop = 1; OrbB = 1})
 
     //Описание ловушкек
-    let spades = Trap({DMG = 25; OrbB = 0; PointMiss = 20})
+    let Spades = Trap({DMG = 25; OrbB = 0; PointMiss = 20})
+    let FierWall = Trap({DMG = 10; OrbB = 0; PointMiss = 30})
+    
     
     //Описание Orb эфектов
+    
+    // Я уже устал и несу бред ((((
+
+    //Вычеслительные блоки
+    Let LuckCalculation  = HeroState({LUCK}) + Random(-5) + 10 
+
+
+    type Calculations =
+        |MissChanse -> HeroState({Dex}) + HeroState ({INT})
+        |LuckMissChanse -> (HeroState({Dex}) + HeroState ({INT})) * LuckCalculation 
+        |
    // БОЛЬШЕ КОМЕНТАРИЕНВ павпкварагчяпрВАВВАААААААААААААААААААА
 
 
