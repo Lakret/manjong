@@ -1,0 +1,32 @@
+open System
+open Microsoft.FSharp.Core
+
+    type characteristicsPers() =
+  [<DefaultValue>] val mutable STR : int64
+  [<DefaultValue>] val mutable DEX : int64
+  [<DefaultValue>] val mutable INT : int64        
+  [<DefaultValue>] val mutable MEN : int64
+  [<DefaultValue>] val mutable LUCK : int64  
+  [<DefaultValue>] val mutable ORBp : ORBp list
+ 
+    type characteristicsLvl() =
+  [<DefaultValue>] val mutable XP : int64
+  [<DefaultValue>] val mutable Lvl : int64    
+  [<DefaultValue>] val mutable MP : int64
+  [<DefaultValue>] val mutable HP : int64  
+    
+    type characteristicsBatle() =
+  [<DefaultValue>] val mutable DMG : int64
+  [<DefaultValue>] val mutable DEF : int64
+  [<DefaultValue>] val mutable CRITrate : int64
+  [<DefaultValue>] val mutable ORBb : int64 
+  
+    type ClasHero()= //nope
+   [<DefaultValue>] val mutable Warior : string
+   [<DefaultValue>] val mutable DMG : int64
+        
+
+    type Monster() = // nope
+  [<DefaultValue>] val mutable MonsterName : string
+  [<DefaultValue>] val mutable Point : Resource
+  [<DefaultValue>] val mutable Skil : Skil list        
