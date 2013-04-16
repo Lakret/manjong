@@ -25,7 +25,7 @@ open System
         OrbB : int // Будет список по индексу где 1 соответствует например +5 к силе 
         } //Боевые характеристики героя
 
-    type characteristicsMonstrDragon = { 
+    type CharacteristicsMonstrDragon = { 
          Danger : int
          STR : int;
          CON : int;
@@ -43,7 +43,7 @@ open System
          HP : int
          }   // Характеристики монстра дракона
 
-    type characteristicsMonstr= { 
+    type CharacteristicsMonstr= { 
          Danger : int  // Уровень опасности
          DMG : int
          DEF : int
@@ -53,26 +53,33 @@ open System
          OrbB: int
          }   // Характеристики монстра
 
-    type characteristicsTrap = {
+    type CharacteristicsTrap = {
         DMG : int
         OrbB : int
         PointMiss : int  // количество очков чтобы проти ловушку  без повреждения
     }
 
     type Item = {
-        armor : int
-        weapon : int
-        ring :int
-        useitem : int // да да тут библиотека или чето  другое но точно НЕ ЧИСЛА АГАРРРР
+        Armor : int
+        Weapon : int
+        Ring :int
+        Useitem : int // да да тут библиотека или чето  другое но точно НЕ ЧИСЛА АГАРРРР
         // Будет список по индексу где 1 соответствует например  шмотке +5 к ловкости 
         }// 4 типа шмоток 
 
+    type DropChanse = {   // Дроп ПИШЕММММ
+          }
+
+    type VoidMiss = { // Наверно снести нафиг при рефакторинге но я боюсь будет ситуация с котиком 
+    DMG : int 
+        }
+
     type Event =
-    | MonsterDragon of characteristicsMonstrDragon
-    | Monster of characteristicsMonstr
-    | Trap of characteristicsTrap 
-    | Drop 
-    | Void
+    | MonsterDragon of CharacteristicsMonstrDragon
+    | Monster of CharacteristicsMonstr
+    | Trap of CharacteristicsTrap 
+    | Drop of DropChanse
+    | Void of VoidMiss
 
     type HeroInfo =
     |HeroState of CharacteristicsPers
@@ -105,9 +112,7 @@ open System
     type Calculations =
         |MissChanse -> HeroState({Dex}) + HeroState ({INT})
         |LuckMissChanse -> (HeroState({Dex}) + HeroState ({INT})) * LuckCalculation 
-        |
-   // БОЛЬШЕ КОМЕНТАРИЕНВ павпкварагчяпрВАВВАААААААААААААААААААА
-
+        
 
 
     if 0<1 then goto newstyle:
