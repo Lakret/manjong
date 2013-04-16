@@ -1,29 +1,30 @@
 open System
  newstyle:
 
-    type characteristicsPers = { 
+    type CharacteristicsPers = { 
          STR : int;
          CON : int;
          DEX : int;
          MEN : int;
          INT : int;
          LUCK : int; // Подумаем над тем чтобы убрать
-         ORBb : int; // Будет список по индексу где 1 соответствует например +5 к силе 
-        } // характеристики персонажа 
+         OrbP: int; // Будет список по индексу где 1 соответствует например +5 к силе 
+         } // характеристики персонажа 
    
-    type characteristicsLv = { 
+    type CharacteristicsLvl = { 
         XP : int
         Lvl : int   
         MP : int
         HP : int
+        XPNextLvl : int
         } // Характеристики уровня
 
-     type characteristicsHeroBatle = {
+     type CharacteristicsHeroBatle = {
         DMG : int
         DEF : int
-        CRITrate : int
-        ORBb : int // Будет список по индексу где 1 соответствует например +5 к силе 
-   } //Боевые характеристики героя
+        CritRate : int
+        OrbB : int // Будет список по индексу где 1 соответствует например +5 к силе 
+        } //Боевые характеристики героя
 
     type characteristicsMonstrDragon = { 
          Danger : int
@@ -36,25 +37,26 @@ open System
          DMG : int
          DEF : int
          CRITrate : int
-         ORBb : int
+         OrbB : int
          Drop: int
          XP : int  
          MP : int
          HP : int
-        }   // Характеристики монстра дракона
+         }   // Характеристики монстра дракона
 
-    type characteristicsMonstrEasy= { 
+    type characteristicsMonstr= { 
          Danger : int  // Уровень опасности
          DMG : int
          DEF : int
          Drop: int  //Дроп 
          XPHero : int // Опыта герою 
          HP : int
-        }   // Характеристики монстра
+         OrbB: int
+         }   // Характеристики монстра
 
     type characteristicsTrap = {
         DMG : int
-        ORBb : int
+        OrbB : int
         PointMiss : int  // количество очков чтобы проти ловушку  без повреждения
     }
 
@@ -66,16 +68,30 @@ open System
         // Будет список по индексу где 1 соответствует например  шмотке +5 к ловкости 
         }// 4 типа шмоток 
 
+    type 
+
     type Event =
     | MonsterDragon of characteristicsMonstrDragon
-    | MonsterEasy of characteristicsMonstrEasy
-    | MonstrOrb
+    | Monster of characteristicsMonstr
     | Trap of characteristicsTrap 
     | Drop 
     | Void
- 
-    
-    let snake = MonsterEasy({Danger = 1, DMG = 10, DEF = 0, XPhero = 10, HP = 25})
+
+    type HeroInfo =
+    |HeroStat of CharacteristicsPers
+    |HeroLvl of CharacteristicsLvl
+    |HeroBatle of CharacteristicsHeroBatle
+
+    let hero = 
+        HeroStat({STR = 10; CON = 10; DEX = 10; MEN = 10; INT = 10; LUCK = 10; OrbP = 0;})
+        HeroLvl({XP = 0; Lvl = 1; HP = 100; MP = 100; XPNextLvl = 100;})
+        HeroBatle({DMG = 10; DEF = 5;CritRate =1; OrbB = 0;})
+              
+
+    //Описание монстров
+    let snake = Monster({Danger = 1; DMG = 10; DEF = 0; XPHero = 10; HP = 25; Drop = 0; OrbB = 0})
+    let witch = Monster({Danger = 2; HP = 50; DMG = 5; DEF = 1; XPHero = 10 ; Drop = 1; OrbB = 1})
+
 
     if 0<1 then goto newstyle:
 
