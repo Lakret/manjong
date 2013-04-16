@@ -7,28 +7,59 @@ open System
          MEN : int;
          INT : int;
          LUCK : int; // Подумаем над тем чтобы убрать
-         ORBb : int;
+         ORBb : int; // Должен быть список
         } // характеристики персонажа 
    
-   type characteristicsLv = { 
-    XP : int
-    Lvl : int   
-    MP : int
-    HP : int
-    } // Характеристики уровня
+    type characteristicsLv = { 
+        XP : int
+        Lvl : int   
+        MP : int
+        HP : int
+        } // Характеристики уровня
+
+     type characteristicsHeroBatle = {
+        DMG : int
+        DEF : int
+        CRITrate : int
+        ORBb : int // Должен быть список
+   } //Боевые характеристики героя
+
+    type characteristicsMonstr = { 
+         Danger : int
+         STR : int;
+         CON : int;
+         DEX : int;
+         MEN : int;
+         INT : int;
+         LUCK : int;
+         DMG : int
+         DEF : int
+         CRITrate : int
+         ORBb : int
+         Drop: int
+        }   // time for быдло кодинг
+
+    type characteristicsTrap = {
+        DMG : int
+        ORBb : int
+        PointMiss : int  // количество очков чтобы проти ловушку  без повреждения
+    }
+
+    type Item = {
+        armor : int
+        weapon : int
+        ring :int
+        useitem : int // да да тут библиотека или чето  другое но точно НЕ ЧИСЛА АГАРРРР
+        }// 4 типа шмоток 
+
+    type Event =
+    | Monster of characteristicsMonstr
+    | Trap of characteristicsTrap 
+    | Drop 
+    | Void
+
+    Let Snake = characteristicsMonstr({10,10,10,10,10,10,10,10,10,10,10,10})
     
-   type characteristicsBatle = {
-    DMG : int
-    DEF : int
-    CRITrate : int
-    ORBb : int
-   } //Боевые характеристики
-
-   type event = {
-    Monstr : int
-    Trap : int
-    Drop : int
-    Void : int
-    }  // Типы событий если 1 то  это монстр  если 2 то ловушка
 
 
+  
