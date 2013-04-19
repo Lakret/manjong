@@ -54,6 +54,7 @@ open System
          }   // Характеристики монстра
 
     type CharacteristicsTrap = {
+        HP : int
         DMG : int
         OrbB : int
         PointMiss : int  // количество очков чтобы проти ловушку  без повреждения
@@ -97,8 +98,8 @@ open System
     let Witch = Monster({Danger = 2; HP = 50; DMG = 5; DEF = 1; XPHero = 10 ; Drop = 1; OrbB = 1})
 
     //Описание ловушкек
-    let Spades = Trap({DMG = 25; OrbB = 0; PointMiss = 20})
-    let FierWall = Trap({DMG = 10; OrbB = 0; PointMiss = 30})
+    let Spades = Trap({HP = 0;DMG = 25; OrbB = 0; PointMiss = 20})
+    let FierWall = Trap({HP = 0;DMG = 10; OrbB = 0; PointMiss = 30})
     
     
     //Описание Orb эфектов
