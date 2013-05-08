@@ -46,7 +46,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.fs" />
-    <Compile Include="TestGame.fs" />
     <None Include="App.config" />
   </ItemGroup>
   <PropertyGroup>
